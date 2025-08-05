@@ -37,7 +37,7 @@ function CarDetail() {
   }
 
   return (
-    <div className="bg-gray-100 p-10 min-h-screen">
+    <div className="bg-gray-100 p-4 min-h-screen">
       {/* Back Button */}
       <div 
         className="mb-4 text-[--primoo-blue] cursor-pointer flex items-center" 
