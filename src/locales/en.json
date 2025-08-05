@@ -1,0 +1,11 @@
+{
+  "header": {
+    "myBooking": "My Booking",
+    "alwaysCheaper": "Always Cheaper",
+    "guaranteed": "Guaranteed."
+  },
+  "hero": {
+    "title": "All the top car hire companies in one place",
+    "bookInMinutes": "Book your car in 3 minutes"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "header": {
+    "myBooking": "Ma Réservation",
+    "alwaysCheaper": "Toujours Moins Cher",
+    "guaranteed": "Garanti."
+  },
+  "hero": {
+    "title": "Toutes les meilleures sociétés de location de voitures en un seul endroit",
+    "bookInMinutes": "Réservez votre voiture en 3 minutes"
+  }
+}

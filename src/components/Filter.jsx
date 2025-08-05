@@ -1,13 +1,6 @@
 import React from 'react';
 import { Info } from 'lucide-react';
 
-const companies = [
-  'abbycar', 'addCar', 'alamo', 'aquarius', 'autounion', 'avis', 'budget',
-  'cargini', 'carwiz', 'city', 'enterprise', 'firefly', 'green', 'hertz',
-  'movis', 'national', 'nexcar', 'rentacar', 'routes', 'sicily', 'smart',
-  'surprice', 'thrifty', 'usave', 'wheego', 'yours'
-];
-
 const CarFilterSidebar = () => {
   return (
     <div className="bg-[--primoo-white] border border-[--primoo-grey] rounded-xl p-4 text-sm sticky top-4">
@@ -19,26 +12,51 @@ const CarFilterSidebar = () => {
         </p>
       </div>
 
-      {/* Rest of your filter content remains the same */}
       {/* Car Hire Companies */}
-      <div className="mb-5">
-        <div className="flex items-center justify-between mb-2">
-          <p className="font-semibold text-[--primoo-dark]">Car hire companies</p>
-          <Info size={14} />
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          {companies.map((name, idx) => (
-            <label key={idx} className="flex items-center gap-2">
-              <input type="checkbox" className="accent-[--primoo-yellow]" />
-              <img
-                src={`/logos/${name}.png`}
-                alt={name}
-                className="h-5 object-contain"
-              />
-            </label>
-          ))}
-        </div>
-      </div>
+<div className="mb-5">
+  <div className="flex items-center justify-between mb-2">
+    <p className="font-semibold text-[--primoo-dark]">Car hire companies</p>
+    <Info size={14} />
+  </div>
+  <div className="grid grid-cols-2 gap-2">
+    {[
+      { name: 'Abbycar', code: 'ALM' },
+            { name: 'AddCar', code: 'HER' },
+            { name: 'Alamo', code: 'ECR' },
+            { name: 'Aquarius', code: 'NAT' },
+            { name: 'Auto Union', code: 'THR' },
+            { name: 'Avis', code: 'AVS' },
+            { name: 'Budget', code: 'BGE' },
+            { name: 'Cargini', code: 'DTG' },
+            { name: 'Carwiz', code: 'HER' },
+            { name: 'City', code: 'SXT' },
+            { name: 'Enterprise', code: 'ENT' },
+            { name: 'Firefly', code: 'ALM' },
+            { name: 'Green', code: 'AVS' },
+            { name: 'Hertz', code: 'THR' },
+            { name: 'Rentacar', code: 'DTG' },
+            { name: 'Sicily', code: 'SXT' },
+            { name: 'Smart', code: 'NAT' },
+            { name: 'Surprice', code: 'ECR' },
+            { name: 'Thrifty', code: 'THR' },
+            { name: 'Usave', code: 'BGE' }
+    ].map((company, idx) => (
+      <label key={idx} className="flex items-center gap-2">
+        <input type="checkbox" className="accent-[--primoo-yellow]" />
+        <img
+          src={`/prv/logo_${company.code}.png`}
+          alt={company.name}
+          className="h-5 object-contain"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = '/prv/logo_default.png'; // fallback image
+          }}
+        />
+        <span className="text-xs text-[--primoo-dark]">{company.name}</span>
+      </label>
+    ))}
+  </div>
+</div>
 
       {/* Pick-up Location */}
       <div className="mb-5">

@@ -19,7 +19,7 @@ const cars = [
     oldPrice: 55.86,
     tag: 'FREE Amendments',
     logo: 'smart',
-    img: '/cars/peugeot-108.png',
+    img: '/carHead.png',
   },
   {
     name: 'Chevrolet Spark',
@@ -38,7 +38,7 @@ const cars = [
     tag: 'FREE Amendments',
     logo: 'movis',
     promo: 'Free Additional Driver - You Save $34',
-    img: '/cars/chevrolet-spark.png',
+    img: '/carHead.png',
   },
   {
     name: 'Hyundai i10',
@@ -56,7 +56,61 @@ const cars = [
     oldPrice: 69.16,
     tag: 'No Cancellation Fees',
     logo: 'yours',
-    img: '/cars/hyundai-i10.png',
+    img: '/carHead.png',
+  },
+  {
+    name: 'Hyundai i10',
+    seats: 4,
+    doors: 5,
+    transmission: 'Manual',
+    pickup: 'On airport',
+    mileage: 'Unlimited Mileage',
+    fuel: 'Full/Full',
+    cancel: true,
+    theft: true,
+    amendments: true,
+    insurance: true,
+    price: 47.24,
+    oldPrice: 59.16,
+    tag: 'No Cancellation Fees',
+    logo: 'yours',
+    img: '/carHead.png',
+  },
+  {
+    name: 'Hyundai i10',
+    seats: 4,
+    doors: 5,
+    transmission: 'Manual',
+    pickup: 'On airport',
+    mileage: 'Unlimited Mileage',
+    fuel: 'Full/Full',
+    cancel: true,
+    theft: true,
+    amendments: true,
+    insurance: true,
+    price: 72.24,
+    oldPrice: 89.16,
+    tag: 'No Cancellation Fees',
+    logo: 'yours',
+    img: '/carHead.png',
+  },
+  {
+    name: 'Hyundai i20',
+    seats: 4,
+    doors: 5,
+    transmission: 'Manual',
+    pickup: 'On airport',
+    mileage: 'Unlimited Mileage',
+    fuel: 'Full/Full',
+    cancel: true,
+    theft: true,
+    amendments: true,
+    insurance: true,
+    price: 42.24,
+    oldPrice: 59.16,
+    tag: 'No Cancellation Fees',
+    logo: 'yours',
+    img: '/carHead.png',
   },
 ];
 
@@ -106,7 +160,7 @@ const CarSelect = () => {
               <div className="mt-2 flex gap-2 items-center">
                 <span className="bg-yellow-300 text-xs font-bold px-2 py-1 rounded">{car.tag}</span>
                 <button 
-                  className="bg-indigo-700 hover:bg-indigo-800 text-white text-sm font-semibold px-4 py-2 rounded" 
+                  className="bg-[#f9dd17] hover:bg-[#f9dd17]/80 text-sm font-semibold px-4 py-2 rounded" 
                   onClick={() => handleViewDeal(car)}
                 >
                   View deal

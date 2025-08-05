@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Calendar, Clock, Info, CheckCircle, Star } from 'lucide-react';
 
@@ -41,11 +42,12 @@ function Hero() {
   const [showSearchResults] = useState(false);
   const [destination, setDestination] = useState('');
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const tabs = [
-    { name: 'Vans', isNew: false },
-    { name: 'Scooters', isNew: false },
-    { name: 'Hotels', isNew: false },
+    { name: t('tabs.vans'), isNew: false },
+    { name: t('tabs.scooters'), isNew: false },
+    { name: t('tabs.hotels'), isNew: false },
     { name: 'eSims', isNew: true }
   ];
 
@@ -402,32 +404,83 @@ function Hero() {
       </section>
 
       {/* Most Popular Destinations */}
-      <section className="bg-white px-4 py-8">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-[#25344b] border-b-4 border-[#f9dd17] inline-block mb-10">
-            Most Popular Destinations
-          </h2>
+<section className="bg-white px-4 py-8">
+  <div className="max-w-7xl mx-auto">
+    <h2 className="text-3xl font-bold text-[#25344b] border-b-4 border-[#f9dd17] inline-block mb-10">
+      Most Popular Destinations
+    </h2>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-            {[
-              'Albania', 'Andorra', 'Australia', 'Austria', 'Belgium', 'Bosnia and Herzegovina', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic',
-              'Denmark', 'Egypt', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland',
-              'Israel', 'Italy', 'Jordan', 'Kosovo', 'Latvia', 'Lithuania', 'Luxembourg', 'Macedonia', 'Malta', 'Mauritius',
-              'Montenegro', 'Morocco', 'Netherlands', 'New Zealand', 'Norway', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Saudi Arabia',
-              'Serbia', 'Slovakia', 'Slovenia', 'South Africa', 'Spain', 'Sweden', 'Switzerland', 'Tunisia', 'Turkey',
-              'United Arab Emirates', 'United Kingdom', 'United States'
-            ].map((country, index) => (
-              <div
-                key={index}
-                className="flex items-center space-x-3 border border-[#e3e7ee] px-4 py-3 rounded-lg bg-white shadow-sm hover:bg-[#f6f8fc] hover:border-[#f9dd17] transition-all cursor-pointer"
-              >
-                <div className="w-6 h-4 bg-[#e3e7ee] rounded-sm flex-shrink-0"></div>
-                <span className="text-sm text-[#25344b] font-medium">{country}</span>
-              </div>
-            ))}
-          </div>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+      {[
+        { name: 'Albania', code: 'AL' },
+        { name: 'Andorra', code: 'AD' },
+        { name: 'Australia', code: 'AU' },
+        { name: 'Austria', code: 'AT' },
+        { name: 'Belgium', code: 'BE' },
+        { name: 'Bosnia and Herzegovina', code: 'BA' },
+        { name: 'Bulgaria', code: 'BG' },
+        { name: 'Croatia', code: 'HR' },
+        { name: 'Cyprus', code: 'CY' },
+        { name: 'Czech Republic', code: 'CZ' },
+        { name: 'Denmark', code: 'DK' },
+        { name: 'Egypt', code: 'EG' },
+        { name: 'Estonia', code: 'EE' },
+        { name: 'Finland', code: 'FI' },
+        { name: 'France', code: 'FR' },
+        { name: 'Germany', code: 'DE' },
+        { name: 'Greece', code: 'GR' },
+        { name: 'Hungary', code: 'HU' },
+        { name: 'Iceland', code: 'IS' },
+        { name: 'Ireland', code: 'IE' },
+        { name: 'Israel', code: 'IL' },
+        { name: 'Italy', code: 'IT' },
+        { name: 'Jordan', code: 'JO' },
+        { name: 'Latvia', code: 'LV' },
+        { name: 'Lithuania', code: 'LT' },
+        { name: 'Luxembourg', code: 'LU' },
+        { name: 'Malta', code: 'MT' },
+        { name: 'Montenegro', code: 'ME' },
+        { name: 'Morocco', code: 'MA' },
+        { name: 'Netherlands', code: 'NL' },
+        { name: 'New Zealand', code: 'NZ' },
+        { name: 'Norway', code: 'NO' },
+        { name: 'Poland', code: 'PL' },
+        { name: 'Portugal', code: 'PT' },
+        { name: 'Qatar', code: 'QA' },
+        { name: 'Romania', code: 'RO' },
+        { name: 'Saudi Arabia', code: 'SA' },
+        { name: 'Serbia', code: 'RS' },
+        { name: 'Slovakia', code: 'SK' },
+        { name: 'Slovenia', code: 'SI' },
+        { name: 'South Africa', code: 'ZA' },
+        { name: 'Spain', code: 'ES' },
+        { name: 'Sweden', code: 'SE' },
+        { name: 'Switzerland', code: 'CH' },
+        { name: 'Tunisia', code: 'TN' },
+        { name: 'Turkey', code: 'TR' },
+        { name: 'United Arab Emirates', code: 'AE' },
+        { name: 'United Kingdom', code: 'GB' },
+        { name: 'United States', code: 'US' }
+      ].map((country, index) => (
+        <div
+          key={index}
+          className="flex items-center space-x-3 border border-[#e3e7ee] px-4 py-3 rounded-lg bg-white shadow-sm hover:bg-[#f6f8fc] hover:border-[#f9dd17] transition-all cursor-pointer"
+        >
+          <img 
+            src={`/flat/flag-${country.code}.png`} 
+            alt={`${country.name} flag`} 
+            className="w-6 h-4 object-cover rounded-sm flex-shrink-0"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/flags/flag-default.png'; // fallback image
+            }}
+          />
+          <span className="text-sm text-[#25344b] font-medium">{country.name}</span>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* FAQS */}
       <div className="max-w mx-38">

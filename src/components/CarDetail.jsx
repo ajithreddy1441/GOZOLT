@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MapPin, Calendar, Users, CheckCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { MapPin, Calendar, Users, CheckCircle, ArrowLeft } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function CarDetail() {
+  const { state } = useLocation();
+  const car = state?.car;
   const navigate = useNavigate();
   const payBtnRef = useRef(null);
   const [isButtonVisible, setIsButtonVisible] = useState(true);
 
-  // IntersectionObserver to detect button visibility
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setIsButtonVisible(entry.isIntersecting),
@@ -17,18 +18,32 @@ function CarDetail() {
     if (payBtnRef.current) observer.observe(payBtnRef.current);
 
     return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       if (payBtnRef.current) observer.unobserve(payBtnRef.current);
     };
   }, []);
 
+  if (!car) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p>No car details found. Please go back and select a car.</p>
+        <button 
+          onClick={() => navigate(-1)}
+          className="ml-4 bg-[#f9dd17] px-4 py-2 rounded-md"
+        >
+          Back to cars
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-gray-100 p-10 ml-4 min-h-screen">
+    <div className="bg-gray-100 p-10 min-h-screen">
       {/* Back Button */}
-      <div className="mb-4 text-[--primoo-blue] cursor-pointer flex items-center" onClick={() => navigate(-1)}>
-        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-        </svg>
+      <div 
+        className="mb-4 text-[--primoo-blue] cursor-pointer flex items-center" 
+        onClick={() => navigate(-1)}
+      >
+        <ArrowLeft size={18} className="mr-2" />
         <span>See all cars</span>
       </div>
 
@@ -37,19 +52,23 @@ function CarDetail() {
         <div className="lg:w-1/5 w-full sticky top-10 self-start space-y-6">
           {/* Car Info Block */}
           <div className="bg-white rounded-xl shadow-md p-4">
-            <img src="/car-image.jpg" alt="Peugeot 108" className="w-full rounded-md mb-2" />
-            <h2 className="text-xl font-semibold text-[--primoo-dark]">Peugeot 108</h2>
+            <img 
+              src={car.img || '/carHead.png'} 
+              alt={car.name} 
+              className="w-full rounded-md mb-2" 
+            />
+            <h2 className="text-xl font-semibold text-[--primoo-dark]">{car.name}</h2>
             <p className="text-sm text-gray-500 mb-3">or similar</p>
             <div className="flex items-center flex-wrap gap-3 text-[--primoo-dark] text-sm mb-4">
               <Users className="w-4 h-4" />
-              <span>4</span>
-              <span>· 5 Doors</span>
-              <span>· Manual</span>
+              <span>{car.seats}</span>
+              <span>· {car.doors} Doors</span>
+              <span>· {car.transmission}</span>
               <span>· A/C</span>
             </div>
             <h4 className="font-semibold text-[--primoo-dark] mb-2">Location</h4>
             <p className="flex items-center text-sm text-gray-700 mb-1">
-              <MapPin className="w-4 h-4 mr-2" /> Malta Airport (MLA) - Malta
+              <MapPin className="w-4 h-4 mr-2" /> {car.pickup}
             </p>
             <p className="flex items-center text-sm text-gray-700 mb-1">
               <Calendar className="w-4 h-4 mr-2" />
@@ -69,15 +88,15 @@ function CarDetail() {
               <div className="space-y-1">
                 <div className="flex justify-between">
                   <span>Car Rental</span>
-                  <span>$11.76</span>
+                  <span>${car.price.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Pay on Arrival</span>
-                  <span>$28.51</span>
+                  <span>${(car.oldPrice - car.price).toFixed(2)}</span>
                 </div>
                 <div className="border-t pt-2 flex justify-between font-semibold text-[--primoo-dark]">
                   <span>Total</span>
-                  <span>$40.27</span>
+                  <span>${car.oldPrice.toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -87,17 +106,17 @@ function CarDetail() {
           <div className="bg-white rounded-xl shadow-md p-4 text-sm text-gray-700">
             <h4 className="text-[--primoo-dark] font-semibold mb-2">Customer Reviews</h4>
             <div className="mt-6 text-sm text-gray-700 space-y-1">
-            <p>⭐ Trustpilot: 4.1 / 5 (8,637 reviews)</p>
-            <p>⭐ Google: 4.1 / 5 (2,324 reviews)</p>
-            <p>⭐ eKomi: 4.8 / 5 (35,743 reviews)</p>
-          </div>
+              <p>⭐ Trustpilot: 4.1 / 5 (8,637 reviews)</p>
+              <p>⭐ Google: 4.1 / 5 (2,324 reviews)</p>
+              <p>⭐ eKomi: 4.8 / 5 (35,743 reviews)</p>
+            </div>
             <div className="text-center text-xs text-gray-500 mt-4">
               Rated <strong>4.0</strong> / 5 based on <strong>100,897</strong> reviews. Showing our favorite reviews.
               <div className="flex justify-center mt-1">
                 <img src="/trustpilot.svg" className="h-4" alt="Trustpilot" />
               </div>
             </div>
-            </div>
+          </div>
         </div>
 
         {/* RIGHT - Booking Process Blocks */}
@@ -115,7 +134,7 @@ function CarDetail() {
                 </p>
                 <p className="text-sm text-gray-700">
                   <MapPin className="inline w-4 h-4 mr-1" />
-                  Malta Airport (MLA)
+                  {car.pickup}
                 </p>
                 <p className="text-xs text-gray-500">Office hours: Monday 08:00 - 19:00</p>
               </div>
@@ -128,23 +147,23 @@ function CarDetail() {
                 </p>
                 <p className="text-sm text-gray-700">
                   <MapPin className="inline w-4 h-4 mr-1" />
-                  Malta Airport (MLA)
+                  {car.pickup}
                 </p>
                 <p className="text-xs text-gray-500">Office hours: Thursday 08:00 - 19:00</p>
               </div>
             </div>
 
             <div className="border-t border-gray-200 pt-4 mb-4 text-sm text-gray-700 space-y-2">
-              <div className="flex justify-between"><span>Car Rental</span><span>$11.76</span></div>
-              <div className="flex justify-between"><span>Airport Fee</span><span>$28.51</span></div>
+              <div className="flex justify-between"><span>Car Rental</span><span>${car.price.toFixed(2)}</span></div>
+              <div className="flex justify-between"><span>Airport Fee</span><span>${(car.oldPrice - car.price).toFixed(2)}</span></div>
               <div className="flex justify-between font-bold text-[--primoo-dark]">
-                <span>Total</span><span>$40.27</span>
+                <span>Total</span><span>${car.oldPrice.toFixed(2)}</span>
               </div>
-              <p className="text-xs text-gray-500">Pay on Arrival: $28.51</p>
+              <p className="text-xs text-gray-500">Pay on Arrival: ${(car.oldPrice - car.price).toFixed(2)}</p>
             </div>
 
-            <button ref={payBtnRef} className="w-full bg-[#f9dd17] font-semibold py-3 rounded-md hover:bg-green-700 transition">
-              Pay Online Now – $11.76
+            <button ref={payBtnRef} className="w-full bg-[#f9dd17] font-semibold py-3 rounded-md hover:bg-[#f9dd17]/80 transition">
+              Pay Online Now – ${car.price.toFixed(2)}
             </button>
           </div>
 
@@ -152,20 +171,38 @@ function CarDetail() {
           <div className="bg-white rounded-xl shadow-md p-6">
             <h4 className="text-[--primoo-dark] font-semibold mb-4">Included in the Price</h4>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-700">
-              {[
-                "Cancellation",
-                "Best Price Guaranteed",
-                "Insurance",
-                "Unlimited Mileage",
-                "FREE Amendments",
-                "Theft Protection",
-                "No Credit Card Fees",
-                "Local Taxes Included",
-              ].map((item, index) => (
-                <li key={index} className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" /> {item}
+              {car.amendments && (
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" /> FREE Amendments
                 </li>
-              ))}
+              )}
+              {car.cancel && (
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" /> Cancellation
+                </li>
+              )}
+              {car.insurance && (
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" /> Insurance
+                </li>
+              )}
+              {car.theft && (
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" /> Theft Protection
+                </li>
+              )}
+              <li className="flex items-center">
+                <CheckCircle className="w-4 h-4 text-green-500 mr-2" /> Unlimited Mileage
+              </li>
+              <li className="flex items-center">
+                <CheckCircle className="w-4 h-4 text-green-500 mr-2" /> Local Taxes Included
+              </li>
+              <li className="flex items-center">
+                <CheckCircle className="w-4 h-4 text-green-500 mr-2" /> Best Price Guaranteed
+              </li>
+              <li className="flex items-center">
+                <CheckCircle className="w-4 h-4 text-green-500 mr-2" /> No Credit Card Fees
+              </li>
             </ul>
           </div>
 
@@ -175,11 +212,11 @@ function CarDetail() {
             <ul className="space-y-2 text-sm text-gray-700">
               <li className="flex items-start">
                 <CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" />
-                The cheapest option in its category in Malta Airport (MLA)
+                The cheapest option in its category in {car.pickup}
               </li>
               <li className="flex items-start">
                 <CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" />
-                Free amendments and Free cancellations up to 24 hours before the collection time.
+                {car.amendments ? "Free amendments and Free cancellations up to 24 hours before the collection time." : "Standard cancellation policy applies."}
               </li>
               <li className="flex items-start">
                 <svg className="w-4 h-4 text-red-600 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -249,7 +286,7 @@ function CarDetail() {
                 <input type="text" placeholder="Expiry Date (mm/yy)" className="border border-gray-300 rounded-md px-3 py-2" />
                 <input type="text" placeholder="Security Code" className="border border-gray-300 rounded-md px-3 py-2" />
               </div>
-              <button className="w-full bg-[#f9dd17]  font-semibold py-3 rounded-md hover:bg-[#f9dd17] transition">Pay Online now</button>
+              <button className="w-full bg-[#f9dd17]  font-semibold py-3 rounded-md hover:bg-[#f9dd17]/80 transition">Pay Online now</button>
 
               <div className="text-xs text-center text-gray-500 mt-2">
                 <div className="flex justify-center space-x-2 mt-4">

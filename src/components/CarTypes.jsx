@@ -34,7 +34,7 @@ function CarTypes() {
                   {car.label}
                 </h3>
                 <img
-                  src={car.image}
+                  src="carHead.png"
                   alt={car.label}
                   className="mx-auto h-14 object-contain"
                 />
