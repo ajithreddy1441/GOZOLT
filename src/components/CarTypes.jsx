@@ -28,7 +28,7 @@ function CarTypes() {
             {carTypes.map((car, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-3 text-center border border-[--primoo-grey]"
+                className="bg-white rounded-xl shadow-lg hover:shadow-md transition-all duration-200 ease-in-out p-3 text-center border border-[--primoo-grey] hover:border-yellow-400"
               >
                 <h3 className="text-[--primoo-dark] font-medium text-xs mb-2 line-clamp-2 h-10 flex items-center justify-center">
                   {car.label}
