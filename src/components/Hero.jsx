@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Calendar, Clock, Info, CheckCircle, Star } from 'lucide-react';
@@ -41,8 +41,59 @@ function Hero() {
   const [isLoading, setIsLoading] = useState(false);
   const [showSearchResults] = useState(false);
   const [destination, setDestination] = useState('');
+  const [pickupDate, setPickupDate] = useState('');
+  const [pickupTime, setPickupTime] = useState('');
+  const [returnDate, setReturnDate] = useState('');
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  // Brand logos data
+  const brandLogos = [
+    { name: 'Thrifty', image: 'prv/logo_THR.png' },
+    { name: 'Alamo', image: 'prv/logo_ALM.png' },
+    { name: 'SIXT', image: 'prv/logo_SXT.png' },
+    { name: 'Europcar', image: 'prv/logo_ECR.png' },
+    { name: 'AVIS', image: 'prv/logo_AVS.png' },
+    { name: 'Hertz', image: 'prv/logo_HER.png' },
+    { name: 'Enterprise', image: 'prv/logo_ENT.png' },
+    { name: 'Budget', image: 'prv/logo_BGE.png' },
+    { name: 'National', image: 'prv/logo_NAT.png' },
+    { name: 'Dollar', image: 'prv/logo_DTG.png' }
+  ];
+
+  // Format date as "EEE, dd MMM"
+  const formatDate = (date) => {
+    const options = { weekday: 'short', day: '2-digit', month: 'short' };
+    return date.toLocaleDateString('en-US', options);
+  };
+
+  // Calculate time slot based on current time
+  const getTimeSlot = () => {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    
+    if (hours >= 10 || (hours === 9 && minutes >= 30)) {
+      return '10:30';
+    } else if (hours >= 9) {
+      return '10:00';
+    } else if (hours >= 8) {
+      return '09:30';
+    } else {
+      return '09:00';
+    }
+  };
+
+  // Initialize dates and times
+  useEffect(() => {
+    const today = new Date();
+    const returnDay = new Date(today);
+    returnDay.setDate(today.getDate() + 3);
+    
+    setPickupDate(formatDate(today));
+    setPickupTime(getTimeSlot());
+    setReturnDate(formatDate(returnDay));
+  }, []);
 
   const tabs = [
     { name: t('tabs.vans'), isNew: false },
@@ -195,7 +246,7 @@ function Hero() {
                       id="pickupDate"
                       name="pickupDate"
                       readOnly
-                      value="Fri, 01 Aug"
+                      value={pickupDate}
                       className="text-gray-700 text-xs md:text-sm mr-2 md:mr-4 bg-transparent border-none outline-none"
                     />
                     <div className="flex items-center">
@@ -205,7 +256,7 @@ function Hero() {
                         id="pickupTime"
                         name="pickupTime"
                         readOnly
-                        value="10:30"
+                        value={pickupTime}
                         className="text-gray-700 text-xs md:text-sm bg-transparent border-none outline-none w-8 md:w-12"
                       />
                     </div>
@@ -223,7 +274,7 @@ function Hero() {
                       id="returnDate"
                       name="returnDate"
                       readOnly
-                      value="Mon, 04 Aug"
+                      value={returnDate}
                       className="text-gray-700 text-sm mr-4 bg-transparent border-none outline-none"
                     />
                     <div className="flex items-center">
@@ -233,7 +284,7 @@ function Hero() {
                         id="returnTime"
                         name="returnTime"
                         readOnly
-                        value="10:30"
+                        value={pickupTime}
                         className="text-gray-700 text-sm bg-transparent border-none outline-none w-12"
                       />
                     </div>
@@ -248,7 +299,7 @@ function Hero() {
                       id="returnDateMobile"
                       name="returnDateMobile"
                       readOnly
-                      value="Mon, 04 Aug"
+                      value={returnDate}
                       className="text-gray-700 text-xs mr-2 bg-transparent border-none outline-none"
                     />
                     <div className="flex items-center">
@@ -258,7 +309,7 @@ function Hero() {
                         id="returnTimeMobile"
                         name="returnTimeMobile"
                         readOnly
-                        value="10:30"
+                        value={pickupTime}
                         className="text-gray-700 text-xs bg-transparent border-none outline-none w-8"
                       />
                     </div>
@@ -327,10 +378,18 @@ function Hero() {
           </p>
 
           {/* Brand Logos - Grid on mobile, flex on larger screens */}
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:flex md:flex-wrap justify-center items-center gap-3 md:gap-6 mb-8 md:mb-16">
-            {['Thrifty', 'Alamo', 'SIXT', 'Europcar', 'AVIS', 'Hertz', 'Enterprise', 'Budget', 'National', 'Dollar'].map((company, index) => (
-              <div key={index} className="bg-white px-3 py-2 md:px-6 md:py-3 rounded-lg shadow-md border border-[#e3e7ee] hover:shadow-lg transition-shadow">
-                <span className="text-xs md:text-sm text-[#25344b] font-semibold">{company}</span>
+          <div className="grid grid-cols-4 sm:grid-cols-4 md:flex md:flex-wrap justify-center items-center gap-3 md:gap-6 mb-8 md:mb-16">
+            {brandLogos.map((brand, index) => (
+              <div key={index} className="bg-white rounded-lg shadow-md border border-[#e3e7ee] hover:shadow-lg transition-shadow flex items-center justify-center">
+                <img 
+                  src={brand.image} 
+                  alt={brand.name} 
+                  className="h-8 md:h-10 object-contain"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/flags/flag-default.png';
+                  }}
+                />
               </div>
             ))}
           </div>

@@ -4,9 +4,9 @@ import CarTypes from "./CarTypes.jsx";
 
 export default function AfterLoader() {
   return (
-    <div className="min-h-screen bg-[--primoo-bg]">
+    <div className="min-h-screen bg-gray-200">
       <SearchHeader />
-      <main className="container mx-auto px-4 py-6">
+      <main className="px-4">
         <CarTypes />
       </main>
     </div>
