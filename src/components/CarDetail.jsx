@@ -49,8 +49,8 @@ function CarDetail() {
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* LEFT SIDEBAR */}
-        <div className="lg:w-1/5 w-full sticky top-10 self-start space-y-6">
-          {/* Car Info Block */}
+        <div className="lg:w-1/5 w-full lg:sticky lg:top-10 self-start space-y-6">
+          {/* Car Info Block (always visible, sticky only on desktop) */}
           <div className="bg-white rounded-xl shadow-md p-4">
             <img 
               src={car.img || '/carHead.png'} 
@@ -81,39 +81,43 @@ function CarDetail() {
             <p className="text-sm text-gray-500">3 days</p>
           </div>
 
-          {/* Price Summary - shown only when button is not visible */}
-          {!isButtonVisible && (
-            <div className="bg-white rounded-xl shadow-md p-4 text-sm text-gray-700">
-              <h4 className="text-[--primoo-dark] font-semibold mb-2">Price Summary</h4>
-              <div className="space-y-1">
-                <div className="flex justify-between">
-                  <span>Car Rental</span>
-                  <span>${car.price.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Pay on Arrival</span>
-                  <span>${(car.oldPrice - car.price).toFixed(2)}</span>
-                </div>
-                <div className="border-t pt-2 flex justify-between font-semibold text-[--primoo-dark]">
-                  <span>Total</span>
-                  <span>${car.oldPrice.toFixed(2)}</span>
+          {/* Price Summary - only on desktop when button not visible */}
+          <div className="hidden lg:block"> {/* <-- Hidden on mobile/tablet */}
+            {!isButtonVisible && (
+              <div className="bg-white rounded-xl shadow-md p-4 text-sm text-gray-700">
+                <h4 className="text-[--primoo-dark] font-semibold mb-2">Price Summary</h4>
+                <div className="space-y-1">
+                  <div className="flex justify-between">
+                    <span>Car Rental</span>
+                    <span>${car.price.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Pay on Arrival</span>
+                    <span>${(car.oldPrice - car.price).toFixed(2)}</span>
+                  </div>
+                  <div className="border-t pt-2 flex justify-between font-semibold text-[--primoo-dark]">
+                    <span>Total</span>
+                    <span>${car.oldPrice.toFixed(2)}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
-          {/* Review Section */}
-          <div className="bg-white rounded-xl shadow-md p-4 text-sm text-gray-700">
-            <h4 className="text-[--primoo-dark] font-semibold mb-2">Customer Reviews</h4>
-            <div className="mt-6 text-sm text-gray-700 space-y-1">
-              <p>⭐ Trustpilot: 4.1 / 5 (8,637 reviews)</p>
-              <p>⭐ Google: 4.1 / 5 (2,324 reviews)</p>
-              <p>⭐ eKomi: 4.8 / 5 (35,743 reviews)</p>
-            </div>
-            <div className="text-center text-xs text-gray-500 mt-4">
-              Rated <strong>4.0</strong> / 5 based on <strong>100,897</strong> reviews. Showing our favorite reviews.
-              <div className="flex justify-center mt-1">
-                <img src="/trustpilot.svg" className="h-4" alt="Trustpilot" />
+          {/* Customer Review Section - only on desktop */}
+          <div className="hidden lg:block"> {/* <-- Hidden on mobile/tablet */}
+            <div className="bg-white rounded-xl shadow-md p-4 text-sm text-gray-700">
+              <h4 className="text-[--primoo-dark] font-semibold mb-2">Customer Reviews</h4>
+              <div className="mt-6 text-sm text-gray-700 space-y-1">
+                <p>⭐ Trustpilot: 4.1 / 5 (8,637 reviews)</p>
+                <p>⭐ Google: 4.1 / 5 (2,324 reviews)</p>
+                <p>⭐ eKomi: 4.8 / 5 (35,743 reviews)</p>
+              </div>
+              <div className="text-center text-xs text-gray-500 mt-4">
+                Rated <strong>4.0</strong> / 5 based on <strong>100,897</strong> reviews. Showing our favorite reviews.
+                <div className="flex justify-center mt-1">
+                  <img src="/trustpilot.svg" className="h-4" alt="Trustpilot" />
+                </div>
               </div>
             </div>
           </div>
@@ -275,11 +279,11 @@ function CarDetail() {
               </span>
             </label>
           </div>
+          
           {/* Payment Section (New Block) */}
           <div className="bg-white rounded-xl shadow-md p-6">
             <h4 className="text-[--primoo-dark] font-semibold text-lg mb-4">Payment Details</h4>
             <div className="text-center mb-4 font-semibold text-lg">Pay Online now: <span className="text-black">$11.76</span></div>
-
             <div className="space-y-4 max-w-md mx-auto">
               <input type="text" placeholder="Card Number" className="w-full border border-gray-300 rounded-md px-3 py-2" />
               <div className="grid grid-cols-2 gap-4">
@@ -287,7 +291,6 @@ function CarDetail() {
                 <input type="text" placeholder="Security Code" className="border border-gray-300 rounded-md px-3 py-2" />
               </div>
               <button className="w-full bg-[#f9dd17]  font-semibold py-3 rounded-md hover:bg-[#f9dd17]/80 transition">Pay Online now</button>
-
               <div className="text-xs text-center text-gray-500 mt-2">
                 <div className="flex justify-center space-x-2 mt-4">
                   <img src="/icons/mastercard.svg" className="h-6" alt="Mastercard" />

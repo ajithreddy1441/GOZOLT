@@ -16,15 +16,15 @@ function CarTypes() {
   return (
     <div className="bg-[--primoo-bg]">
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* Left: Filter Component */}
+        {/* Left: Filter Component - Always visible */}
         <div className="w-full lg:w-1/4">
           <Filter />
         </div>
 
-        {/* Right: Car Type Cards and CarSelect Component */}
+        {/* Right: CarSelect and Car Type Cards */}
         <div className="w-full lg:w-3/4 flex flex-col gap-6">
-          {/* Car type cards - now without surrounding box */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+          {/* Car type cards - Hidden on mobile/tablet, visible on desktop */}
+          <div className="hidden lg:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
             {carTypes.map((car, idx) => (
               <div
                 key={idx}
@@ -44,7 +44,7 @@ function CarTypes() {
             ))}
           </div>
 
-          {/* CarSelect component below car types */}
+          {/* CarSelect component - Always visible */}
           <CarSelect />
         </div>
       </div>

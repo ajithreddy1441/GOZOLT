@@ -108,7 +108,7 @@ export default function BookingForm() {
           {/* ✅ Purple circular search button (works only here) */}
           <div
             onClick={() => setShowSummary(true)}
-            className="ml-4 flex items-center justify-center w-8 h-8 rounded-full border border-purple-600 text-purple-600 hover:bg-purple-50 cursor-pointer"
+            className="ml-4 flex items-center justify-center w-8 h-8 rounded-full border border-[#04213c] text-[#04213c] hover:bg-purple-50 cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M10 17a7 7 0 100-14 7 7 0 000 14z" />
